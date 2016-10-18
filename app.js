@@ -14,6 +14,9 @@ app.get('/ping', (req, res) => {
 	res.send('Pong')
 })
 
+// creates a route to render the index.pug file in the browser
+// adds readFile and Parse to go through Json-file
+// and render the results on the website via 'res.render'
 app.get('/index', (req, res) => {
 	console.log('I am running')
 	fs.readFile(__dirname + '/users.json', 'utf-8', (err, data) => {

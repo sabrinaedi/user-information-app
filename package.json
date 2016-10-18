@@ -1,0 +1,23 @@
+{
+  "name": "user-information-app",
+  "version": "1.0.0",
+  "description": "interactive app with node and pug displaying and taking in user information",
+  "main": "apps.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sabrinaedi/user-information-app.git"
+  },
+  "author": "Sabrina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sabrinaedi/user-information-app/issues"
+  },
+  "homepage": "https://github.com/sabrinaedi/user-information-app#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "pug": "^2.0.0-beta6"
+  }
+}

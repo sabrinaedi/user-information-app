@@ -78,7 +78,7 @@ app.post('/addUser', function(req, res) {
 
 	fs.appendFile(__dirname + 'users.json', newUser, function(err) {
 		if (err) throw err
-
+		console.log('appended!')
 	})
 
 	res.redirect('index')

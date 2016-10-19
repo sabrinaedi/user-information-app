@@ -32,28 +32,22 @@ app.get('/search', (req, res) => {
 })
 
 
-app.post('/matches', function(req, res){ // Specifies which URL to listen for
-  // req.body -- contains form data
-  console.log(req.body)
+app.post('/matches', function(req, res){ 
+
   var userReq = req.body.inputUser
-
-  let foundUser = []
-
+  let foundUser = {}
 
   fs.readFile(__dirname + '/users.json', 'utf-8', (err, data) => {
 		if (err) throw err
 		let parsedData = JSON.parse(data)
-		console.log(parsedData)
+	
 		filterFunction (userReq, parsedData)
 
-
-/// write as a callback instead!!
 		function filterFunction (userReq, parsedData) {
 			for (var i=0; i<parsedData.length; i++) {
-			if ((parsedData[i].firstName || parsedData[i].lastName) == userReq) {
-				console.log(parsedData[i].firstName + " " + parsedData[i].lastName)
-				foundUser.push(parsedData[i].firstName, parsedData[i].lastName)
-				console.log(foundUser)
+			if ((parsedData[i].firstName == userReq) || (parsedData[i].lastName == userReq)) {
+				foundUser.firstName=parsedData[i].firstName
+				foundUser.lastName=parsedData[i].lastName
 				res.render('matches', {foundUser})
 				}
 			}
@@ -62,7 +56,7 @@ app.post('/matches', function(req, res){ // Specifies which URL to listen for
 });
 
 
-// app listens to port 8000 for connetions
+// app listens to port 8000 for connections
 app.listen(8000, () => {
 	console.log('Server is running')
 })

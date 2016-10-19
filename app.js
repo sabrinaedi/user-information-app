@@ -26,29 +26,34 @@ app.get('/index', (req, res) => {
 	})
 })
 
+// route 2 to display the search-page
 app.get('/search', (req, res) => {
 	console.log('search is running')
 	res.render('search')
 })
 
-
+// route 3 to page that portrays the results of comparing the input of the form with the json file
+// uses post-request in order to work with the user input
 app.post('/matches', function(req, res){ 
 
-  var userReq = req.body.inputUser
-  let foundUser = {}
+	console.log('Matching request will be processed')
+	var userReq = req.body.inputUser
+	let foundUser = {}
 
-  fs.readFile(__dirname + '/users.json', 'utf-8', (err, data) => {
+// function that reads and parses the json-file
+	fs.readFile(__dirname + '/users.json', 'utf-8', (err, data) => {
 		if (err) throw err
-		let parsedData = JSON.parse(data)
-	
+			let parsedData = JSON.parse(data)
+
+// callback function that compares the user input with the the parsed json-file
 		filterFunction (userReq, parsedData)
 
 		function filterFunction (userReq, parsedData) {
 			for (var i=0; i<parsedData.length; i++) {
-			if ((parsedData[i].firstName == userReq) || (parsedData[i].lastName == userReq)) {
-				foundUser.firstName=parsedData[i].firstName
-				foundUser.lastName=parsedData[i].lastName
-				res.render('matches', {foundUser})
+				if ((parsedData[i].firstName == userReq) || (parsedData[i].lastName == userReq)) {
+					foundUser.firstName=parsedData[i].firstName
+					foundUser.lastName=parsedData[i].lastName
+					res.render('matches', {foundUser})
 				}
 			}
 		}

@@ -42,7 +42,7 @@ app.post('/matches', function(req, res){
 // function that reads and parses the json-file
 	fs.readFile(__dirname + '/users.json', 'utf-8', (err, data) => {
 		if (err) throw err
-			let parsedData = JSON.parse(data)
+		let parsedData = JSON.parse(data)
 
 // callback function that compares the user input with the the parsed json-file
 		filterFunction (userReq, parsedData)
@@ -76,9 +76,35 @@ app.post('/addUser', function(req, res) {
 
 	console.log(newUser)
 
-	fs.appendFile(__dirname + 'users.json', newUser, function(err) {
+
+/// MAKE THIS A CALLBACK!!!! WRITEFILE CALLS READFILE!!
+	function updateFile ( filename, newFile ) {
+	fs.readFile(__dirname + '/users.json', 'utf8', (err, data) => {
 		if (err) throw err
-		console.log('appended!')
+		let parsedData = JSON.parse(data)
+
+		parsedData.push(newUser)
+		
+		console.log(parsedData)
+
+		return newFile(parsedData)
+		}
+
+		//newFile (update)
+
+
+		function newFile (filename, file ) {
+			fs.writeFile(__dirname + '/users.json', function (err, data) {
+
+			fs.readFile(__dirname + '/users.json', 'utf8', (err, data) => {
+			if (err) throw err
+			let parsedData = JSON.parse(data)
+
+			parsedData.push(newUser)
+		
+			console.log(parsedData)
+			}
+
 	})
 
 	res.redirect('index')

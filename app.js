@@ -35,8 +35,7 @@ app.get('/search', (req, res) => {
 // route 3 to page that portrays the results of comparing the input of the form with the json file
 // uses post-request in order to work with the user input
 app.post('/matches', function(req, res){ 
-
-	console.log('Matching request will be processed')
+	console.log('Matching page is running')
 	var userReq = req.body.inputUser
 	let foundUser = {}
 
@@ -51,8 +50,8 @@ app.post('/matches', function(req, res){
 		function filterFunction (userReq, parsedData) {
 			for (var i=0; i<parsedData.length; i++) {
 				if ((parsedData[i].firstName == userReq) || (parsedData[i].lastName == userReq)) {
-					foundUser.firstName=parsedData[i].firstName
-					foundUser.lastName=parsedData[i].lastName
+					foundUser.firstName = parsedData[i].firstName
+					foundUser.lastName = parsedData[i].lastName
 					res.render('matches', {foundUser})
 				}
 			}
@@ -60,6 +59,30 @@ app.post('/matches', function(req, res){
 	})
 });
 
+// route 4: renders a page with three forms on it, first name, last name and e-mail
+app.get('/newuser', function (req, res) {
+	console.log('You can add a new user')
+	res.render('newuser')
+})
+
+app.post('/addUser', function(req, res) {
+	console.log('newuser page is running')
+
+	let newUser = {
+	firstName : req.body.inputFirstName,
+	lastName: req.body.inputLastName,
+	email: req.body.inputEmail
+	}
+
+	console.log(newUser)
+
+	fs.appendFile(__dirname + 'users.json', newUser, function(err) {
+		if (err) throw err
+
+	})
+
+	res.redirect('index')
+})
 
 // app listens to port 8000 for connections
 app.listen(8000, () => {

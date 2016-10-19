@@ -1,0 +1,24 @@
+html
+	head
+	body
+
+		form(method='post' action='/addUser')
+				p What's your first name?
+				input(type='text', name='inputFirstName')
+
+				p What's your last name?
+				input(type='text', name='inputLastName')
+
+				p What's your e-mail address?
+				input(type='text', name='inputEmail')
+				
+				br
+				br
+				input(type='submit' value='submit')
+
+		style.
+			input {
+				width: 130px;
+				-webkit-transition: width 0.4s ease-in-out;
+				transition: width 0.4s ease-in-out;
+				}

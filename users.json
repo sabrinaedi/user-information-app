@@ -1,1 +1,17 @@
-4
+[
+	{
+		"firstName": "Ludwig",
+		"lastName": "Wittgenstein",
+		"email": "ludwig.wittgenstein@gmail.com"
+	},
+	{
+		"firstName": "Pierre",
+		"lastName": "Bourdieu",
+		"email": "pierre.bourdieu@gmail.com"
+	},
+	{
+		"firstName": "Niklas",
+		"lastName": "Luhmann",
+		"email": "niklas.luhmann@gmail.com"
+	}
+]

@@ -65,6 +65,9 @@ app.get('/newuser', function (req, res) {
 	res.render('newuser')
 })
 
+
+
+
 app.post('/addUser', function(req, res) {
 	console.log('newuser page is running')
 
@@ -76,39 +79,33 @@ app.post('/addUser', function(req, res) {
 
 	console.log(newUser)
 
-
-/// MAKE THIS A CALLBACK!!!! WRITEFILE CALLS READFILE!!
-	function updateFile ( filename, newFile ) {
-	fs.readFile(__dirname + '/users.json', 'utf8', (err, data) => {
+	fs.readFile(__dirname + '/users.json', function (err, data) {
 		if (err) throw err
 		let parsedData = JSON.parse(data)
-
-		parsedData.push(newUser)
-		
 		console.log(parsedData)
-
-		return newFile(parsedData)
-		}
-
-		//newFile (update)
-
-
-		function newFile (filename, file ) {
-			fs.writeFile(__dirname + '/users.json', function (err, data) {
-
-			fs.readFile(__dirname + '/users.json', 'utf8', (err, data) => {
-			if (err) throw err
-			let parsedData = JSON.parse(data)
-
-			parsedData.push(newUser)
-		
-			console.log(parsedData)
-			}
-
 	})
 
+//	readFile (__dirname + '/users.json', pushFunction, newUser)
+/// MAKE THIS A CALLBACK!!!! WRITEFILE CALLS READFILE!!
+			//newFile (update)
 	res.redirect('index')
+
 })
+
+
+function pushFunction (file, newUser) {
+		file.push(newUser)
+		console.log(file)
+		addingUser(__dirname + '/users.json', newUser)
+}
+
+function addingUser ( filename, stuff ) {
+	fs.writeFile(filename, stuff, function (err) {
+		if (err) return err
+		console.log('newFile works')
+	})
+}
+
 
 // app listens to port 8000 for connections
 app.listen(8000, () => {

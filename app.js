@@ -5,6 +5,7 @@ const express = require('express')
 const fs = require('fs')
 const app = express()
 const bodyParser = require('body-parser')
+const stringify = require('json-stringify')
 
 
 //adjust settings to view sttic pages in view folder
@@ -34,9 +35,9 @@ app.get('/search', (req, res) => {
 
 // route 3 to page that portrays the results of comparing the input of the form with the json file
 // uses post-request in order to work with the user input
-app.post('/matches', function(req, res){ 
+app.post('/matches', (req, res) => { 
 	console.log('Matching page is running')
-	var userReq = req.body.inputUser
+	let userReq = req.body.inputUser
 	let foundUser = {}
 
 // function that reads and parses the json-file
@@ -44,68 +45,47 @@ app.post('/matches', function(req, res){
 		if (err) throw err
 		let parsedData = JSON.parse(data)
 
-// callback function that compares the user input with the the parsed json-file
-		filterFunction (userReq, parsedData)
-
-		function filterFunction (userReq, parsedData) {
-			for (var i=0; i<parsedData.length; i++) {
-				if ((parsedData[i].firstName == userReq) || (parsedData[i].lastName == userReq)) {
-					foundUser.firstName = parsedData[i].firstName
-					foundUser.lastName = parsedData[i].lastName
-					res.render('matches', {foundUser})
-				}
+// for-loop that compares the user input with the the parsed json-file,
+// if a match is found, will show uswer, if not, will show error message
+		for (let i=0; i<parsedData.length; i++) {
+			if ((parsedData[i].firstName == userReq) || (parsedData[i].lastName == userReq)) {
+				foundUser.firstName = parsedData[i].firstName
+				foundUser.lastName = parsedData[i].lastName
+				res.render('matches', {foundUser})
 			}
 		}
 	})
 });
 
 // route 4: renders a page with three forms on it, first name, last name and e-mail
-app.get('/newuser', function (req, res) {
+app.get('/newuser', (req, res) => {
 	console.log('You can add a new user')
 	res.render('newuser')
 })
 
-
-
-
-app.post('/addUser', function(req, res) {
+// route 5 to add a user and overwrite the json file
+app.post('/addUser', (req, res) => {
 	console.log('newuser page is running')
 
 	let newUser = {
-	firstName : req.body.inputFirstName,
-	lastName: req.body.inputLastName,
-	email: req.body.inputEmail
+		firstName : req.body.inputFirstName,
+		lastName: req.body.inputLastName,
+		email: req.body.inputEmail
 	}
 
 	console.log(newUser)
 
-	fs.readFile(__dirname + '/users.json', function (err, data) {
+	fs.readFile(__dirname + '/users.json', (err, data) => {
 		if (err) throw err
 		let parsedData = JSON.parse(data)
 		console.log(parsedData)
-	})
+		parsedData.push(newUser)
+		let updated = JSON.stringify(parsedData)
 
-//	readFile (__dirname + '/users.json', pushFunction, newUser)
-/// MAKE THIS A CALLBACK!!!! WRITEFILE CALLS READFILE!!
-			//newFile (update)
+		fs.writeFile(__dirname + '/users.json', updated)
+	})
 	res.redirect('index')
-
 })
-
-
-function pushFunction (file, newUser) {
-		file.push(newUser)
-		console.log(file)
-		addingUser(__dirname + '/users.json', newUser)
-}
-
-function addingUser ( filename, stuff ) {
-	fs.writeFile(filename, stuff, function (err) {
-		if (err) return err
-		console.log('newFile works')
-	})
-}
-
 
 // app listens to port 8000 for connections
 app.listen(8000, () => {

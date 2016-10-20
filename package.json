@@ -18,6 +18,7 @@
   "homepage": "https://github.com/sabrinaedi/user-information-app#readme",
   "dependencies": {
     "express": "^4.14.0",
+    "json-stringify": "^1.0.0",
     "pug": "^2.0.0-beta6"
   }
 }

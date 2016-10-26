@@ -12,6 +12,9 @@ const stringify = require('json-stringify')
 app.set('view engine', 'pug')
 app.set('views', __dirname + '/views')
 
+// Add static resources
+app.use( '/inc', express.static('static') )
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -33,29 +36,41 @@ app.get('/search', (req, res) => {
 	res.render('search')
 })
 
-// route 3 to page that portrays the results of comparing the input of the form with the json file
-// uses post-request in order to work with the user input
-app.post('/matches', (req, res) => { 
-	console.log('Matching page is running')
-	let userReq = req.body.inputUser
-	let foundUser = {}
-
-// function that reads and parses the json-file
+// create a route that takes in the request and userinput sent by the frontend ajaxfile.js
+app.post('/searchBar', function (req, res) {
 	fs.readFile(__dirname + '/users.json', 'utf-8', (err, data) => {
-		if (err) throw err
+		if (err) {
+			res.send(err)
+			return
+		}
+
 		let parsedData = JSON.parse(data)
 
-// for-loop that compares the user input with the the parsed json-file,
-// if a match is found, will show uswer, if not, will show error message
-		for (let i=0; i<parsedData.length; i++) {
-			if ((parsedData[i].firstName == userReq) || (parsedData[i].lastName == userReq)) {
-				foundUser.firstName = parsedData[i].firstName
-				foundUser.lastName = parsedData[i].lastName
-				res.render('matches', {foundUser})
+		let userReq = req.body.name
+
+		var indices = []
+
+// the for loop compares the parsed data with the userinput returns array with matching names
+		for (var i=0; i<parsedData.length; i++) {
+
+			if (parsedData[i].firstName.indexOf(userReq) !== -1) {
+				var completeName = parsedData[i].firstName + " " + parsedData[i].lastName
+				indices.push(completeName)
+			} 
+			else if (parsedData[i].lastName.indexOf(userReq) !== -1) {
+				var completeName = parsedData[i].firstName + " " + parsedData[i].lastName
+				indices.push(completeName)
 			}
 		}
+
+		res.send(
+			indices
+		)
+		
+		console.log(indices)
 	})
-});
+})
+
 
 // route 4: renders a page with three forms on it, first name, last name and e-mail
 app.get('/newuser', (req, res) => {

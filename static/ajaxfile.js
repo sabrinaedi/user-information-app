@@ -3,8 +3,22 @@ $(document).ready(function(){
 	console.log("DOM Ready")
 })
 
+
+
+function timeout () {
+	var startTime = Date.now()
+
+	setTimeout(autocompSearch (startTime), 3000)	
+}
+
+timeout ()
+
+
+function autocompSearch (startTime) {
+
 // create a function using jquery that reacts with every key entered into the form #inputUser
 $('#inputUser').keyup(function() {
+
 
 	console.log('jquery function works')
 
@@ -27,5 +41,11 @@ $('#inputUser').keyup(function() {
 			$('#users').append("<option>" + data[i] + "</option>")
 		}
 
+	if ((Date.now() - startTime) > 300) {
+	clearTimeout(timeout)
+	timeout()
+	}
+
 	}) 
-})
+ })
+}

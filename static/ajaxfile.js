@@ -4,18 +4,6 @@ $(document).ready(function(){
 })
 
 
-
-function timeout () {
-	var startTime = Date.now()
-
-	setTimeout(autocompSearch (startTime), 3000)	
-}
-
-timeout ()
-
-
-function autocompSearch (startTime) {
-
 // create a function using jquery that reacts with every key entered into the form #inputUser
 $('#inputUser').keyup(function() {
 
@@ -29,9 +17,18 @@ $('#inputUser').keyup(function() {
 
 	console.log(searchUser)
 
+
+setTimeout(postReq(), 300)
+
+
+function postReq () {
+
+	
 // post request to pass on the user input to the backend app.js, 
 // use response of the backend function to append matching names to the dropdown of the searchbar
 	$.post("/searchBar", searchUser, function (data, stat) {
+
+		var startTime = Date.now()
 
 		$('#users').empty()
 
@@ -41,11 +38,16 @@ $('#inputUser').keyup(function() {
 			$('#users').append("<option>" + data[i] + "</option>")
 		}
 
+		timeout()
+
 	if ((Date.now() - startTime) > 300) {
-	clearTimeout(timeout)
-	timeout()
+	clearTimeout(postReq)
+	postReq()
 	}
 
-	}) 
- })
+	})
+
+
+
 }
+})

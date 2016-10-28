@@ -52,15 +52,10 @@ app.post('/searchBar', function (req, res) {
 
 // the for loop compares the parsed data with the userinput returns array with matching names
 		for (var i=0; i<parsedData.length; i++) {
-
-			if (parsedData[i].firstName.indexOf(userReq) !== -1) {
+			if ((parsedData[i].firstName.indexOf(userReq) !== -1) || (parsedData[i].lastName.indexOf(userReq)) !== -1){
 				var completeName = parsedData[i].firstName + " " + parsedData[i].lastName
 				indices.push(completeName)
 			} 
-			else if (parsedData[i].lastName.indexOf(userReq) !== -1) {
-				var completeName = parsedData[i].firstName + " " + parsedData[i].lastName
-				indices.push(completeName)
-			}
 		}
 
 		res.send(

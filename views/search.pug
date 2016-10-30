@@ -3,21 +3,83 @@ html
 		script(src="/inc/jquery-3.1.1.min.js")
 		
 	body
+		ul#myTopnav.topnav
+			li
+				a(href='/index') Home
+			li
+				a(href='/search') Search User
+			li
+				a(href='/newuser') Add new User
+		
+
 		h1 This is going to be a website at some point in the distant future.
-		p And this is an awesome search engine
+		p And this is a really impressive search engine
 		br
 		br
 
-		form(autocomplete="off")
+		form(autocomplete="off" class="formBox")
 			p Who are you looking for?
 			input#inputUser(type='text' list='users')
 			datalist#users
 
 			style.
 				input {
-					width: 130px;
+					width: 300px;
 					-webkit-transition: width 0.4s ease-in-out;
 					transition: width 0.4s ease-in-out;
+					left: 50%;
 					}
+
+				body {
+					background-color: orange;
+					font-family: Arial,Helvetica Neue,Helvetica,sans-serif
+				}
+
+				form {
+				    width: 300px;
+				    padding: 25px;
+				    background-color: #009688;
+				    position: absolute;
+				    top: 30%;
+				    left: 50%;
+				    margin-left: -200px;
+				}
+
+				h1 {
+					text-align: center;
+				}
+
+				p {
+					text-align: center;
+				}
+
+				ul.topnav {
+				    list-style-type: none;
+				    margin: 0;
+				    padding: 0;
+				    overflow: hidden;
+				    background-color: #333;
+				}
+
+	
+				ul.topnav li {float: left;}
+
+				ul.topnav li a {
+				    display: inline-block;
+				    color: #f2f2f2;
+				    text-align: center;
+				    padding: 14px 16px;
+				    text-decoration: none;
+				    transition: 0.3s;
+				    font-size: 17px;
+				}
+
+				ul.topnav li a:hover {
+					background-color: #555;
+				}
+
+				ul.topnav li.icon {
+					display: none;
+				}
 
 		script(src="/inc/ajaxfile.js")

@@ -16,6 +16,7 @@ $(document).ready(function(){
 
 		console.log(searchUser)
 
+	//send a post request only every 300 miliseconds
 		console.log(Date.now())
 		if ((Date.now() - timeSlot) > 300) {
 			postReq()
